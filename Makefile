@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2017/12/28 23:09:04 by banthony         ###   ########.fr        #
+#    Updated: 2018/01/22 18:37:14 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,12 +21,12 @@ OBJ = $(SRC:.s=.o)
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-NFLAGS = -f elf64 -p syscall_macro.s
+NFLAGS = -f elf64 -DLINUX -p ./syscall_macro.s
 FLAGS = -Wall -Wextra -Werror -g3
 endif
 
 ifeq ($(UNAME), Darwin)
-NFLAGS = -f macho64 --prefix _ -p syscall_macro.s
+NFLAGS = -f macho64 -DOSX --prefix _ -p ./syscall_macro.s
 FLAGS = -Wall -Wextra -Werror -g3 -Weverything
 endif
 

@@ -13,7 +13,7 @@ hello_world:
 	mov rdi, 1
 	lea rsi, [rel hello.string]
 	mov rdx, hello.len
-	mov rax, 1					;MACH_SYSCALL(WRITE)
+	mov rax, MACH_SYSCALL(WRITE)
 	syscall
 	leave
 	ret

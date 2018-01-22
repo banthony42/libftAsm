@@ -1,2 +1,2 @@
-
+Compiler avec nasm de brew sur Mac OS
 	-Resoudre pb d'inclusion syscall_macro.s
