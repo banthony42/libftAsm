@@ -1,3 +1,6 @@
+	;; char *ft_strcat(char *dest, const char *src)
+extern ft_strlen
+
 section .text
 	global ft_strcat
 
@@ -5,6 +8,7 @@ ft_strcat:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 16
+
 	cmp rdi, 0					;protection si dest == NULL
 	je .erreur					;on quitte
 	cmp rsi, 0					;protection si src == NULL
@@ -24,7 +28,7 @@ ft_strcat:
 .boucle:
 	cmp byte [rsi+rcx], 0
 	je .end
-	mov byte rax, [rsi+rcx]
+	mov rax, [rsi+rcx]
 	mov [rdi+rdx], rax
 	inc rcx
 	inc rdx

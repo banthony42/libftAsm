@@ -1,3 +1,5 @@
+	;; int ft_isdigit(int c)
+
 section .text
 	global ft_isdigit
 
@@ -6,9 +8,9 @@ ft_isdigit:
 	mov rbp, rsp				;pour pouvoir la restaurer en fin de cette fonction (leave)
 	sub rsp, 16					;permet au debugueur de remonter la pile d'appels
 
-	cmp rdi, 47
+	cmp edi, 47
 	jng isnot
-	cmp rdi, 58
+	cmp edi, 58
 	jnl isnot
 	mov rax, 1
 	leave

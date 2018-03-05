@@ -6,13 +6,14 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/03/03 18:37:55 by banthony         ###   ########.fr        #
+#    Updated: 2018/03/05 19:28:24 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = libfts.a
 
-TEST = my_test
+MYTEST = my_test
+QPTEST = qp_test
 
 SRC += hello_world.s
 
@@ -45,26 +46,32 @@ endif
 
 ifeq ($(UNAME), Darwin)
 NFLAGS = -f macho64 -DOSX --prefix _ -p ./syscall_macro.s
-FLAGS = -Wall -Wextra -Werror -g3 -Weverything
+FLAGS = -Wall -Wextra -Werror -g3
 endif
 
-all: $(NAME) $(TEST)
+all: $(NAME) $(QPTEST) $(MYTEST)
 
 $(NAME): $(SRC) $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
 
-$(TEST): $(NAME) main.c main.o
-	gcc $(FLAGS) -c main.c
-	gcc -o $(TEST) $(FLAGS) main.o $(NAME)
+$(MYTEST): $(NAME) main.c main.o
+	@gcc $(FLAGS) -Weverything -c main.c
+	@gcc -o $(MYTEST) $(FLAGS) -Weverything main.o $(NAME)
+	./$(MYTEST)
+
+$(QPTEST): $(NAME) main_qperez.c main_qperez.o
+	@gcc $(FLAGS) -c main_qperez.c
+	@gcc -o $(QPTEST) $(FLAGS) main_qperez.o $(NAME)
+	./$(QPTEST)
 
 %.o: %.s
-	nasm $(NFLAGS) $< -o $@
+	@nasm $(NFLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJ) main.o
+	@rm -f $(OBJ) main_qperez.o main.o
 
 fclean: clean
-	rm -f $(NAME) $(TEST) Makefile~ note.txt~ ./*.s~
+	@rm -f $(NAME) $(MYTEST) $(QPTEST) Makefile~ note.txt~ ./*.s~ ./*.c~ ./*.h~
 
 re: fclean all

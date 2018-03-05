@@ -6,12 +6,13 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/03 18:46:58 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/05 19:28:02 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <string.h>
+#include "libfta.h"
 
 typedef enum	e_functions
 {
@@ -32,7 +33,8 @@ void 	my_print_memory(void *addr, size_t size);
 
 void	hello_world(void);
 
-void	ft_bzero(void *data, size_t n);
+/*
+void	ft_bzero(void *data, int n);
 char	*ft_strcat(char *dest, const char *src);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
@@ -44,7 +46,7 @@ int		ft_tolower(int c);
 int		ft_puts(const char *s);
 
 size_t ft_strlen(const char *s);
-
+*/
 static size_t	my_strlen(const char *s)
 {
 	size_t i;
@@ -146,9 +148,10 @@ int my_test(int function)
 
 		ft_bzero(NULL, 10);
 
+// CAS VICIEUX OU L'UTILISATEUR DECLARE: void ft_bzero(void *data, int n)
 /*		my_putstrcol(YELLOW, "ft_bzero(&str[9], -2):\n");
-		ft_bzero((void*)&str[9], -2);
-		my_print_memory((void*)str, 16);
+		ft_bzero((void*)&str[9], -25654);
+		my_print_memory((void*)str, 10);
 */
 		my_putstrcol(YELLOW, "ft_bzero(str, 10):\n");
 		ft_bzero((void*)str, 10);
@@ -187,6 +190,7 @@ int my_test(int function)
 		retour = ft_strcat(str, "LAST CALL");
 		my_putstr(retour);
 		my_putchar('\n');
+
 		my_putstrcol(YELLOW, "ft_strcat: ");
 		return (84);
 	}
@@ -323,11 +327,35 @@ int my_test(int function)
 		return (84);
 	}
 
+	if (function == PUTS)
+	{
+		my_putstrcol(YELLOW, "ft_puts:\n");
+
+		int ret = 0;
+		ret = ft_puts("TEST1 - coucou les amis !");
+		my_putnbr(ret);
+		ft_puts("\nTEST2 - NULL");
+		ret = ft_puts(NULL);
+		my_putnbr(ret);
+		ft_puts("\nTEST3 - chaine vide - retour: ");
+		ret = ft_puts("");
+		my_putnbr(ret);
+		my_putchar('\n');
+
+		my_putstrcol(YELLOW, "\nft_puts:\n");
+		return (84);
+	}
+
+	//------ LIB PART TWO ------
+
 	if (function == STRLEN)
 	{
 		my_putstrcol(YELLOW, "ft_strlen:\n");
 
 		char *str = "123456";
+
+		ft_strlen(NULL);
+
 		my_putstr(str);
 		my_putstr("--> lenght:");
 		my_putnbr((int)ft_strlen(str));
@@ -340,25 +368,6 @@ int my_test(int function)
 		my_putchar('\n');
 
 		my_putstrcol(YELLOW, "\nft_strlen: ");
-		return (84);
-	}
-
-	if (function == PUTS)
-	{
-		my_putstrcol(YELLOW, "ft_puts:\n");
-
-		int ret = 0;
-		ret = ft_puts("TEST1 - coucou les amis ! - retour: ");
-		my_putnbr(ret);
-		ft_puts("\nTEST2 - NULL - retour: ");
-		ret = ft_puts(NULL);
-		my_putnbr(ret);
-		ft_puts("\nTEST3 - chaine vide - retour: ");
-		ret = ft_puts("");
-		my_putnbr(ret);
-		my_putchar('\n');
-
-		my_putstrcol(YELLOW, "\nft_puts:\n");
 		return (84);
 	}
 

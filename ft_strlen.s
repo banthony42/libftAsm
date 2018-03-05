@@ -5,13 +5,19 @@ ft_strlen:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 16
-	mov rcx, 0
-.boucle:
-	cmp byte [rdi+rcx], 0
+
+	mov rax, 0
+	cmp rdi, 0
 	je .end
-	inc rcx
-	jmp .boucle
-.end:
+
+	mov rcx, 0
+	not rcx
+	cld
+	repne scasb
+	not rcx
+	dec rcx
 	mov rax, rcx
+
+.end:
 	leave
 	ret

@@ -1,3 +1,5 @@
+	;; int ft_tolower(int c)
+
 section .text
 	global ft_tolower
 
@@ -6,15 +8,15 @@ ft_tolower:
 	mov rbp, rsp
 	sub rsp, 16
 
-	cmp rdi, 65
+	cmp edi, 65
 	jnge .else
-	cmp rdi, 90
+	cmp edi, 90
 	jnle .else
-	mov rax, rdi
-	add rax, 32
+	mov eax, edi
+	add eax, 32
 	leave
 	ret
 .else:
-	mov rax, rdi
+	mov eax, edi
 	leave
 	ret

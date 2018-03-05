@@ -1,3 +1,5 @@
+	;; int ft_toupper(int c)
+
 section .text
 	global ft_toupper
 
@@ -6,15 +8,15 @@ ft_toupper:
 	mov rbp, rsp
 	sub rsp, 16
 
-	cmp rdi, 97
+	cmp edi, 97
 	jnge .else
-	cmp rdi, 122
+	cmp edi, 122
 	jnle .else
-	mov rax, rdi
-	xor rax, 0x20				;set du bit de poid 32 a zero (idem a: sub rax, 32)
+	mov eax, edi
+	xor eax, 0x20				;set du bit de poid 32 a zero (identique a: sub rax, 32)
 	leave
 	ret
 .else:
-	mov rax, rdi
+	mov eax, edi
 	leave
 	ret

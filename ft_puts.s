@@ -1,3 +1,10 @@
+section .data
+null:
+	.string db "(null)", 10
+	.len equ $ - null.string
+
+newline db 10
+
 section .text
 	global ft_puts
 
@@ -22,9 +29,20 @@ ft_puts:
 .next:
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+
+	mov rdx, 1
+	lea rsi, [rel newline]
+	mov rax, MACH_SYSCALL(WRITE)
+	syscall
+
 	leave
 	ret
+
 .erreur:
-	mov rax, -1
+	mov rdx, null.len
+	mov rdi, 1
+	lea rsi, [rel null.string]
+	mov rax, MACH_SYSCALL(WRITE)
+	syscall
 	leave
 	ret
