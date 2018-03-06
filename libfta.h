@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/05 19:12:37 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/06 20:24:38 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,7 @@ int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_puts(const char *s);
-size_t ft_strlen(const char *s);
+
+size_t	ft_strlen(const char *s);
+void	ft_memset(void *data, int c, size_t len);
+void	ft_memcpy(void *dest, const void *src, size_t n);

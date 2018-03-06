@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/05 19:28:02 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/06 20:36:51 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 typedef enum	e_functions
 {
 	BZERO, STRCAT, ISALPHA, ISDIGIT, ISALNUM, ISASCII, ISPRINT, TOUPPER, TOLOWER, PUTS, END_ONE,
-	STRLEN, END_TWO,
+	STRLEN, MEMSET, MEMCPY, END_TWO,
 	END,
 }				t_functions;
 
@@ -368,6 +368,50 @@ int my_test(int function)
 		my_putchar('\n');
 
 		my_putstrcol(YELLOW, "\nft_strlen: ");
+		return (84);
+	}
+
+	if (function == MEMSET)
+	{
+		my_putstrcol(YELLOW, "ft_memset: str = \n");
+		char str[10] = "0123456789";
+		my_print_memory((void*)str, 10);
+
+		my_putstrcol(YELLOW, "ft_memset(&str[8], '-', 1):\n");
+		ft_memset((void*)&str[8], '-', 1);
+		my_print_memory((void*)str, 10);
+
+		my_putstrcol(YELLOW, "ft_memset(&str[3], '-', 4):\n");
+		ft_memset((void*)&str[3], '-', 4);
+		my_print_memory((void*)str, 10);
+
+		ft_memset(NULL, '-', 10);
+
+
+		my_putstrcol(YELLOW, "ft_memset(str, '-', 10):\n");
+		ft_memset((void*)str, '-', 10);
+
+		my_print_memory((void*)str, 10);
+
+		my_putstrcol(YELLOW, "ft_memset: ");
+		return (84);
+	}
+
+	if (function == MEMCPY)
+	{
+		my_putstrcol(YELLOW, "ft_memcpy: str = \n");
+		char str[64] = {0};
+		my_print_memory((void*)str, 64);
+
+		my_putstrcol(YELLOW, "ft_memcpy(str, begin, 5):\n");
+		ft_memcpy((void*)str, "begin", 5);
+
+		ft_memcpy((void*)&str[6], NULL, 4);
+		ft_memcpy(NULL, "then", 4);
+
+		my_print_memory((void*)str, 64);
+
+
 		return (84);
 	}
 
