@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/07 13:22:36 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/07 18:36:04 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,4 @@ void	*ft_memset(void *data, int c, size_t len);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strdup(const char *s1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void	ft_cat(int fd);

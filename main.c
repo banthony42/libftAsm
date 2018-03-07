@@ -6,7 +6,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/07 18:16:28 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/07 18:45:34 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <fcntl.h>
 #include "libfta.h"
 
 typedef enum	e_functions
 {
 	BZERO, STRCAT, ISALPHA, ISDIGIT, ISALNUM, ISASCII, ISPRINT, TOUPPER, TOLOWER, PUTS, END_ONE,
 	STRLEN, MEMSET, MEMCPY, STRDUP, END_TWO,
-	END,
+	CAT, END,
 }				t_functions;
 
 # define WHITE "\033[0m"
@@ -30,7 +31,7 @@ typedef enum	e_functions
 # define YELLOW "\033[33m"
 # define PINK "\033[35m"
 
-int		my_test(int function);
+int		my_test(int function, const char **av);
 void 	my_print_memory(void *addr, size_t size);
 void	hello_world(void);
 
@@ -90,7 +91,7 @@ static void my_putstrcol(char *color, char *str)
 
 /* MAIN */
 
-int main(void)
+int main(int ac, const char **av)
 {
 	int i = 0;
 	int ret = 0;
@@ -104,7 +105,7 @@ int main(void)
 		if (i == END_TWO)
 			my_putstrcol(PINK, "/// LIBASM END PART  \\\\\\\n");
 
-		if (!(ret = my_test(i)))
+		if (!(ret = my_test(i, av)))
 			my_putstrcol(RED, "KO\n");
 		else if (ret == 84)
 			my_putstrcol(YELLOW, "YOU HAVE TO CHECK OUTPUTS\n");
@@ -112,12 +113,13 @@ int main(void)
 			my_putstrcol(GREEN, "OK\n");
 		i++;
 	}
+	(void)ac;
 	return (0);
 }
 
 /* TEST */
 
-int my_test(int function)
+int my_test(int function, const char **av)
 {
 	if (function == BZERO)
 	{
@@ -541,6 +543,18 @@ int my_test(int function)
 			return (0);
 
 		return (1);
+	}
+
+	//------ LIB PART THREE ------
+
+	if (function == CAT)
+	{
+		my_putstrcol(YELLOW, "ft_cat: ");
+		ft_cat(0);
+		ft_cat(open(__FILE__, O_RDONLY));
+		ft_cat(open(av[0], O_RDONLY));
+		ft_cat(-42);
+		return (84);
 	}
 
 	if (function == END_ONE || function == END_TWO || function == END)
