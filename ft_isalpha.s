@@ -1,4 +1,6 @@
+	;;
 	;; int ft_isalpha(int c)
+	;;
 
 section .text
 	global ft_isalpha

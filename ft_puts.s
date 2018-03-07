@@ -1,3 +1,7 @@
+	;;
+	;;	int ft_puts(const char *s);
+	;;
+
 section .data
 null:
 	.string db "(null)", 10
@@ -34,7 +38,7 @@ ft_puts:
 	lea rsi, [rel newline]
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
-
+	mov rax, 10
 	leave
 	ret
 
@@ -44,5 +48,6 @@ ft_puts:
 	lea rsi, [rel null.string]
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+	mov rax, 10
 	leave
 	ret

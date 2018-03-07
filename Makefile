@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/03/06 19:29:51 by banthony         ###   ########.fr        #
+#    Updated: 2018/03/07 12:24:16 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -46,24 +46,22 @@ endif
 
 ifeq ($(UNAME), Darwin)
 NFLAGS = -f macho64 -DOSX --prefix _ -p ./syscall_macro.s
-FLAGS = -Wall -Wextra -Werror -g3 -Weverything
+FLAGS = -Wall -Wextra -Werror -g3
 endif
 
-all: $(NAME) $(MYTEST) #$(QPTEST)
+all: $(NAME) $(MYTEST) $(QPTEST)
 
 $(NAME): $(SRC) $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
 $(MYTEST): $(NAME) main.c main.o
-	@gcc $(FLAGS) -c main.c
-	@gcc -o $(MYTEST) $(FLAGS) main.o $(NAME)
-	./$(MYTEST)
+	@gcc $(FLAGS) -Weverything -c main.c
+	@gcc -o $(MYTEST) $(FLAGS) -Weverything main.o $(NAME)
 
 $(QPTEST): $(NAME) main_qperez.c main_qperez.o
 	@gcc $(FLAGS) -c main_qperez.c
 	@gcc -o $(QPTEST) $(FLAGS) main_qperez.o $(NAME)
-	./$(QPTEST)
 
 %.o: %.s
 	@nasm $(NFLAGS) $< -o $@

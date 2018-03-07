@@ -1,4 +1,6 @@
+	;;
 	;; int ft_isascii(int c)
+	;;
 
 section .text
 	global ft_isascii

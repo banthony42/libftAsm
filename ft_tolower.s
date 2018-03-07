@@ -1,4 +1,6 @@
+	;;
 	;; int ft_tolower(int c)
+	;;
 
 section .text
 	global ft_tolower

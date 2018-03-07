@@ -128,12 +128,12 @@ int					main(void)
  * // #define D_MEMSET
  * // D_ADD_TEST(...)
  */
-//#define	D_MEMSET
-//	D_ADD_HCTEST(memset);
+#define	D_MEMSET
+	D_ADD_HCTEST(memset);
 #define	D_BZERO
 	D_ADD_HCTEST(bzero);
-//#define	D_MEMCPY
-//	D_ADD_HCTEST(memcpy);
+#define	D_MEMCPY
+	D_ADD_HCTEST(memcpy);
 //#define	D_MEMCCPY
 //	D_ADD_HCTEST(memccpy);
 //#define	D_MEMMOVE
@@ -144,8 +144,8 @@ int					main(void)
 //	D_ADD_HCTEST(memcmp);
 #define	D_STRLEN
 	D_ADD_TEST(strlen);
-//#define	D_STRDUP
-//	D_ADD_TEST(strdup);
+#define	D_STRDUP
+	D_ADD_TEST(strdup);
 //#define	D_STRCPY
 //	D_ADD_HCTEST(strcpy);
 //#define	D_STRNCPY

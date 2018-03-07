@@ -1,8 +1,10 @@
+	;;
 	;; char *ft_strcat(char *dest, const char *src)
-extern ft_strlen
+	;;
 
 section .text
 	global ft_strcat
+	extern ft_strlen
 
 ft_strcat:
 	push rbp

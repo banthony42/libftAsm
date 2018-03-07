@@ -13,8 +13,6 @@ ft_memset:
 	mov r8, rdi
 	cmp rdi, 0
 	je .end
-	cmp rsi, 0
-	je .end
 
 	mov rax, rsi
 	mov rcx, rdx

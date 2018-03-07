@@ -1,4 +1,6 @@
+	;;
 	;; int ft_toupper(int c)
+	;;
 
 section .text
 	global ft_toupper

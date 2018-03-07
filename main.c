@@ -6,18 +6,21 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/06 20:36:51 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/07 18:16:28 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 #include <string.h>
 #include "libfta.h"
 
 typedef enum	e_functions
 {
 	BZERO, STRCAT, ISALPHA, ISDIGIT, ISALNUM, ISASCII, ISPRINT, TOUPPER, TOLOWER, PUTS, END_ONE,
-	STRLEN, MEMSET, MEMCPY, END_TWO,
+	STRLEN, MEMSET, MEMCPY, STRDUP, END_TWO,
 	END,
 }				t_functions;
 
@@ -26,27 +29,11 @@ typedef enum	e_functions
 # define GREEN "\033[32m"
 # define YELLOW "\033[33m"
 # define PINK "\033[35m"
-# define BLUE "\033[34m"
 
 int		my_test(int function);
 void 	my_print_memory(void *addr, size_t size);
-
 void	hello_world(void);
 
-/*
-void	ft_bzero(void *data, int n);
-char	*ft_strcat(char *dest, const char *src);
-int		ft_isdigit(int c);
-int		ft_isalpha(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_toupper(int c);
-int		ft_tolower(int c);
-int		ft_puts(const char *s);
-
-size_t ft_strlen(const char *s);
-*/
 static size_t	my_strlen(const char *s)
 {
 	size_t i;
@@ -120,7 +107,7 @@ int main(void)
 		if (!(ret = my_test(i)))
 			my_putstrcol(RED, "KO\n");
 		else if (ret == 84)
-			my_putstrcol(YELLOW, "YOU HAVE TO CHECK OUTPUTS\n\n");
+			my_putstrcol(YELLOW, "YOU HAVE TO CHECK OUTPUTS\n");
 		else if (ret != 42)
 			my_putstrcol(GREEN, "OK\n");
 		i++;
@@ -134,7 +121,7 @@ int my_test(int function)
 {
 	if (function == BZERO)
 	{
-		my_putstrcol(YELLOW, "ft_bzero: str = \n");
+		my_putstrcol(YELLOW, "ft_bzero: str:\n");
 		char str[10] = "0123456789";
 		my_print_memory((void*)str, 10);
 
@@ -163,36 +150,46 @@ int my_test(int function)
 
 	if (function == STRCAT)
 	{
-		my_putstrcol(YELLOW, "ft_strcat: str = ");
+		my_putstrcol(YELLOW, "ft_strcat: ");
 		char str[48] = {0};
+		char str2[48] = {0};
+		char *retour2 = NULL;
 		char *retour = NULL;
-		strncpy(str, "0123456789", 10);
-		my_putstr(str);
-		my_putchar('\n');
 
-		my_putstrcol(YELLOW, "ft_strcat(str, salut):\n");
+		strncpy(str, "0123456789", 10);
+		strncpy(str2, "0123456789", 10);
+
 		ft_strcat(str, "salut");
-		my_putstr(str);
-		my_putchar('\n');
+		strcat(str2, "salut");
+
+		if (memcmp(str, str2, 15) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
 		if (!(retour = ft_strcat(NULL, str)))
-			my_putstrcol(YELLOW, "ft_strcat(NULL, str) return NULL\n");
+			my_putstrcol(GREEN, ".");
 
 		if (!(retour = ft_strcat(str, NULL)))
-			my_putstrcol(YELLOW, "ft_strcat(str, NULL) return NULL\n");
+			my_putstrcol(GREEN, ".");
 
-		my_putstrcol(YELLOW, "ft_strcat(str, --BONJOUR--):\n");
-		ft_strcat(str, "--BONJOUR--");
-		my_putstr(str);
-		my_putchar('\n');
 
-		my_putstrcol(YELLOW, "ft_strcat(str, LAST CALL):\n");
+		retour2 = strcat(str2, "--BONJOUR--");
+		retour = ft_strcat(str, "--BONJOUR--");
+		if ((memcmp(str, str2, 26) == 0) && (memcmp(retour, retour2, 26) == 0))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		retour2 = strcat(str2, "LAST CALL");
 		retour = ft_strcat(str, "LAST CALL");
-		my_putstr(retour);
-		my_putchar('\n');
+		if ((memcmp(str, str2, 35) == 0) && (memcmp(retour, retour2, 35) == 0))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
-		my_putstrcol(YELLOW, "ft_strcat: ");
-		return (84);
+
+		return (1);
 	}
 
 	if (function == ISALPHA)
@@ -200,20 +197,28 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_isalpha: ");
 		if (!(ft_isalpha('A')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalpha('Z')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalpha('a')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalpha('z')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalpha('@'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalpha('['))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalpha('`'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalpha('{'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		return (1);
 	}
 
@@ -222,13 +227,17 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_isdigit: ");
 		if (!(ft_isdigit('0')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isdigit('9')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isdigit('/'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isdigit(':'))
 			return (0);
-		return (2);
+		my_putstrcol(GREEN, ".");
+		return (1);
 	}
 
 	if (function == ISALNUM)
@@ -236,23 +245,32 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_isalnum: ");
 		if (!(ft_isalnum('0')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalnum('9')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalpha('a')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isalpha('Z')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalnum('/'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalnum(':'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalnum('@'))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (ft_isalnum('['))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isalnum('*')))
 			return (0);
-		return (3);
+		my_putstrcol(GREEN, ".");
+		return (1);
 	}
 
 	if (function == ISASCII)
@@ -260,15 +278,20 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_isascii: ");
 		if (!(ft_isascii(0)))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isascii(127)))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isascii(128)))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isascii(-1)))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isascii(42000)))
 			return (0);
-		return (4);
+		my_putstrcol(GREEN, ".");
+		return (1);
 	}
 
 	if (function == ISPRINT)
@@ -276,55 +299,61 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_isprint: ");
 		if (!(ft_isprint(' ')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if (!(ft_isprint('~')))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isprint(31)))
 			return (0);
+		my_putstrcol(GREEN, ".");
 		if ((ft_isprint(127)))
 			return (0);
-		return (5);
+		my_putstrcol(GREEN, ".");
+		return (1);
 	}
 
 	if (function == TOUPPER)
 	{
-		my_putstrcol(YELLOW, "ft_toupper:\n");
+		my_putstrcol(YELLOW, "ft_toupper: ");
 		char *str = "1 - salut LES amis CouCou !";
 		size_t len = my_strlen(str);
 		char result[100] = {0};
+		char result2[100] = {0};
 		size_t i = 0;
 
 		while (i < len)
 		{
 			result[i] = (char)ft_toupper((int)str[i]);
+			result2[i] = (char)toupper((int)str[i]);
 			i++;
 		}
-		my_putstr("\t");
-		my_putstrcol(BLUE, str);
-		my_putstr("\n\t");
-		my_putstrcol(BLUE, result);
-		my_putstrcol(YELLOW, "\nft_toupper: ");
-		return (84);
+		if (memcmp(result, result2, 100) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		return (1);
 	}
 
 	if (function == TOLOWER)
 	{
-		my_putstrcol(YELLOW, "ft_tolower:\n");
+		my_putstrcol(YELLOW, "ft_tolower: ");
 		char *str = "*42 - SALUT les @MIS cOUCOU !*   [.\t.]";
 		size_t len = my_strlen(str);
 		char result[100] = {0};
+		char result2[100] = {0};
 		size_t i = 0;
 
 		while (i < len)
 		{
 			result[i] = (char)ft_tolower((int)str[i]);
+			result2[i] = (char)tolower((int)str[i]);
 			i++;
 		}
-		my_putstr("\t");
-		my_putstrcol(BLUE, str);
-		my_putstr("\n\t");
-		my_putstrcol(BLUE, result);
-		my_putstrcol(YELLOW, "\nft_tolower: ");
-		return (84);
+		if (memcmp(result, result2, 100) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		return (1);
 	}
 
 	if (function == PUTS)
@@ -332,17 +361,25 @@ int my_test(int function)
 		my_putstrcol(YELLOW, "ft_puts:\n");
 
 		int ret = 0;
+
+		ret = puts("TEST1 - coucou les amis !");
 		ret = ft_puts("TEST1 - coucou les amis !");
+
+		ret = puts(NULL);
 		my_putnbr(ret);
-		ft_puts("\nTEST2 - NULL");
+		my_putchar('\n');
 		ret = ft_puts(NULL);
 		my_putnbr(ret);
-		ft_puts("\nTEST3 - chaine vide - retour: ");
+		my_putchar('\n');
+
+		ret = puts("");
+		my_putnbr(ret);
+		my_putchar('\n');
 		ret = ft_puts("");
 		my_putnbr(ret);
 		my_putchar('\n');
 
-		my_putstrcol(YELLOW, "\nft_puts:\n");
+		my_putstrcol(YELLOW, "ft_puts: ");
 		return (84);
 	}
 
@@ -350,69 +387,160 @@ int my_test(int function)
 
 	if (function == STRLEN)
 	{
-		my_putstrcol(YELLOW, "ft_strlen:\n");
+		my_putstrcol(YELLOW, "ft_strlen: ");
 
 		char *str = "123456";
+		size_t ret = 0;
+		size_t ret2 = 0;
 
-		ft_strlen(NULL);
+		ret = ft_strlen(NULL);
+		if (ret == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
-		my_putstr(str);
-		my_putstr("--> lenght:");
-		my_putnbr((int)ft_strlen(str));
-		my_putchar('\n');
+		ret = ft_strlen("");
+		ret2 = strlen("");
+		if (ret == ret2)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
-		char *str2 = "";
-		my_putstr(str2);
-		my_putstr("--> lenght:");
-		my_putnbr((int)ft_strlen(str2));
-		my_putchar('\n');
+		ret = ft_strlen(str);
+		ret2 = strlen(str);
+		if (ret == ret2)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
-		my_putstrcol(YELLOW, "\nft_strlen: ");
-		return (84);
+		ret = ft_strlen("salut les amis\tcomment ca va ?\n");
+		ret2 = strlen("salut les amis\tcomment ca va ?\n");
+		if (ret == ret2)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		return (1);
 	}
 
 	if (function == MEMSET)
 	{
-		my_putstrcol(YELLOW, "ft_memset: str = \n");
+		my_putstrcol(YELLOW, "ft_memset: ");
 		char str[10] = "0123456789";
-		my_print_memory((void*)str, 10);
+		char str2[10] = "0123456789";
 
-		my_putstrcol(YELLOW, "ft_memset(&str[8], '-', 1):\n");
 		ft_memset((void*)&str[8], '-', 1);
-		my_print_memory((void*)str, 10);
+		memset((void*)&str2[8], '-', 1);
+		if (memcmp(str, str2, 10) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
-		my_putstrcol(YELLOW, "ft_memset(&str[3], '-', 4):\n");
 		ft_memset((void*)&str[3], '-', 4);
-		my_print_memory((void*)str, 10);
+		memset((void*)&str2[3], '-', 4);
+		if (memcmp(str, str2, 10) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 
 		ft_memset(NULL, '-', 10);
+		my_putstrcol(GREEN, ".");
 
-
-		my_putstrcol(YELLOW, "ft_memset(str, '-', 10):\n");
 		ft_memset((void*)str, '-', 10);
-
-		my_print_memory((void*)str, 10);
-
-		my_putstrcol(YELLOW, "ft_memset: ");
-		return (84);
+		memset((void*)str2, '-', 10);
+		if (memcmp(str, str2, 10) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		return (1);
 	}
 
 	if (function == MEMCPY)
 	{
-		my_putstrcol(YELLOW, "ft_memcpy: str = \n");
-		char str[64] = {0};
-		my_print_memory((void*)str, 64);
+		my_putstrcol(YELLOW, "ft_memcpy: ");
+		char str1[64] = {0};
+		char str2[64] = {0};
+		char *mem = NULL;
+		char *mem2 = NULL;
 
-		my_putstrcol(YELLOW, "ft_memcpy(str, begin, 5):\n");
-		ft_memcpy((void*)str, "begin", 5);
+		mem = ft_memcpy((void*)str1, "begin", 5);
+		mem2 = memcpy((void*)str2, "begin", 5);
 
-		ft_memcpy((void*)&str[6], NULL, 4);
+		if (memcmp(mem, mem2, 64) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		mem = ft_memcpy((void*)&str1[6],"bonjour les amis\n", 17);
+		mem2 = memcpy((void*)&str2[6], "bonjour les amis\n", 17);
+
+		if (memcmp(mem, mem2, 64 - 6) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		if (memcmp(str1, str2, 64) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ft_memcpy((void*)str1, "", 1);
+		memcpy((void*)str2, "", 1);
+
+		ft_memcpy((void*)str1, NULL, 1);
+		my_putstrcol(GREEN, ".");
+		ft_memcpy(NULL, "a", 1);
+		my_putstrcol(GREEN, ".");
+
+		if (memcmp(str1, str2, 64) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ft_memcpy((void*)&str1[6], NULL, 4);
 		ft_memcpy(NULL, "then", 4);
 
-		my_print_memory((void*)str, 64);
+		return (1);
+	}
 
+	if (function == STRDUP)
+	{
+		my_putstrcol(YELLOW, "ft_strdup: ");
+		char *str = NULL;
+		char *str2 = NULL;
 
-		return (84);
+		str = strdup("salut les amis");
+		str2 = ft_strdup("salut les amis");
+		if (strcmp(str, str2) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		free(str);
+		free(str2);
+
+		str = strdup("");
+		str2 = ft_strdup("");
+		if (strcmp(str, str2) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		free(str);
+		free(str2);
+
+		str = strdup("a");
+		str2 = ft_strdup("a");
+		if (strcmp(str, str2) == 0)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		free(str);
+		free(str2);
+
+		if (!(ft_strdup(NULL)))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		return (1);
 	}
 
 	if (function == END_ONE || function == END_TWO || function == END)

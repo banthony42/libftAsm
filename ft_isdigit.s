@@ -1,4 +1,6 @@
+	;;
 	;; int ft_isdigit(int c)
+	;;
 
 section .text
 	global ft_isdigit

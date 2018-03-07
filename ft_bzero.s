@@ -1,7 +1,6 @@
-	;; ft_bzero(void *data, size_t size)
-	;; Protection contre nombre negatif,
-	;; en cas d'erreur sur le prototype de la fonction.
-	;; Pas de protection contre le depassement en memoire de la data.
+	;;
+	;; void ft_bzero(void *data, size_t size)
+	;;
 
 section .text
 	global ft_bzero

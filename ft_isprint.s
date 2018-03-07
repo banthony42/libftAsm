@@ -1,4 +1,6 @@
+	;;
 	;; int ft_isprint(int c)
+	;;
 
 section .text
 	global ft_isprint

@@ -1,10 +1,11 @@
+	;;
 	;; int ft_isalnum(int c)
-
-extern ft_isdigit
-extern ft_isalpha
+	;;
 
 section .text
 	global ft_isalnum
+	extern ft_isdigit
+	extern ft_isalpha
 
 ft_isalnum:
 	push rbp					;save de la stack avant appel de fonction
