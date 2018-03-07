@@ -29,10 +29,10 @@ ft_strdup:
 	test rax, rax				;test si malloc a reussi
 	jz .erreur
 
-	pop rdx						;recup de la taille pour memcpy
+	pop rcx						;recup de la taille pour memcpy
 	mov rdi, rax				;recup du nouveau pointeur issu de malloc
 	pop rsi						;recup de s1
-	call ft_memcpy
+	repne movsb
 
 	leave
 	ret
