@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/07 18:45:34 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/08 18:55:20 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +115,7 @@ int main(int ac, const char **av)
 		i++;
 	}
 	(void)ac;
+	(void)av;
 	return (0);
 }
 
@@ -549,11 +551,16 @@ int my_test(int function, const char **av)
 
 	if (function == CAT)
 	{
-		my_putstrcol(YELLOW, "ft_cat: ");
+		my_putstrcol(YELLOW, "ft_cat:\n");
+
 		ft_cat(0);
 		ft_cat(open(__FILE__, O_RDONLY));
 		ft_cat(open(av[0], O_RDONLY));
+		ft_cat(open(av[1], O_RDONLY));
 		ft_cat(-42);
+		ft_cat(42);
+
+		(void)av;
 		return (84);
 	}
 
