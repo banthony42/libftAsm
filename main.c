@@ -7,7 +7,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/08 18:55:20 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/12 18:55:13 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum	e_functions
 {
 	BZERO, STRCAT, ISALPHA, ISDIGIT, ISALNUM, ISASCII, ISPRINT, TOUPPER, TOLOWER, PUTS, END_ONE,
 	STRLEN, MEMSET, MEMCPY, STRDUP, END_TWO,
-	CAT, END,
+	CAT, END_THIRD,
+	MEMCHR, MEMCMP, END
 }				t_functions;
 
 # define WHITE "\033[0m"
@@ -553,7 +554,7 @@ int my_test(int function, const char **av)
 	{
 		my_putstrcol(YELLOW, "ft_cat:\n");
 
-		ft_cat(0);
+//		ft_cat(0);
 		ft_cat(open(__FILE__, O_RDONLY));
 		ft_cat(open(av[0], O_RDONLY));
 		ft_cat(open(av[1], O_RDONLY));
@@ -564,7 +565,37 @@ int my_test(int function, const char **av)
 		return (84);
 	}
 
-	if (function == END_ONE || function == END_TWO || function == END)
+	if (function == MEMCHR)
+	{
+		my_putstrcol(YELLOW, "\n\nft_memchr:\n");
+		char *str = "Voici l'ecole * 42 !";
+		void *data = NULL;
+		void *data2 = NULL;
+
+		char str2[30] = {42};
+		strcpy(str2, "Bonjour les-amis !");
+		ft_memchr(NULL, 0, 0);
+		ft_memchr((void*)str, 0, 0);
+
+		if ((data = memchr((void*)str, '-', 5)) != (data2 = ft_memchr((void*)str, '-', 5)))
+			return (0);
+
+		if ((data = memchr((void*)str2, '-', 6)) != (data2 = ft_memchr((void*)str2, '-', 6)))
+			return (0);
+
+		return (1);
+	}
+
+	if (function == MEMCMP)
+	{
+		my_putstrcol(YELLOW, "ft_memcmp:\n");
+		my_putnbr(memcmp("Bonjourka.", "Bonjourya!", 9));
+		my_putchar('\n');
+		my_putnbr(ft_memcmp("Bonjourka.", "Bonjourya!", 9));
+		return (1);
+	}
+
+	if (function == END_ONE || function == END_TWO || function == END_THIRD || function == END)
 		return (42);
 	return (0);
 }

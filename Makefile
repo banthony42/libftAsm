@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/03/08 18:51:43 by banthony         ###   ########.fr        #
+#    Updated: 2018/03/12 19:09:40 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -34,6 +34,11 @@ SRC += ft_memcpy.s
 SRC += ft_strdup.s
 
 SRC += ft_cat.s
+
+SRC += ft_memchr.s
+SRC += ft_memcmp.s
+SRC += ft_memalloc.s
+SRC += ft_memdel.s
 
 OBJ = $(SRC:.s=.o)
 

@@ -138,10 +138,10 @@ int					main(void)
 //	D_ADD_HCTEST(memccpy);
 //#define	D_MEMMOVE
 //	D_ADD_HCTEST(memmove);
-//#define	D_MEMCHR
-//	D_ADD_HCTEST(memchr);
-//#define	D_MEMCMP
-//	D_ADD_HCTEST(memcmp);
+#define	D_MEMCHR
+	D_ADD_HCTEST(memchr);
+#define	D_MEMCMP
+	D_ADD_HCTEST(memcmp);
 #define	D_STRLEN
 	D_ADD_TEST(strlen);
 #define	D_STRDUP
@@ -184,8 +184,8 @@ int					main(void)
 	D_ADD_HCTEST(toupper);
 #define	D_TOLOWER
 	D_ADD_HCTEST(tolower);
-//#define	D_MEMALLOC_AND_DEL
-//	D_ADD_TEST(memalloc_and_del);
+#define	D_MEMALLOC_AND_DEL
+	D_ADD_TEST(memalloc_and_del);
 //#define	D_STRNEW
 //	D_ADD_TEST(strnew);
 //#define	D_STRDEL
@@ -1632,11 +1632,20 @@ int				uf_test_memchr(void)
 			j++;
 		}
 		if (memchr(ctab, i, sizeof(ctab)) != ft_memchr(ctab, i, sizeof(ctab)))
+		{
+			printf("ctab i:%d\n", i);
 			D_ERROR
+		}
 		if (memchr(itab, i, sizeof(itab)) != ft_memchr(itab, i, sizeof(itab)))
+		{
+			printf("itab i:%d\n", i);
 			D_ERROR
+		}
 		if (memchr(ltab, i, sizeof(ltab)) != ft_memchr(ltab, i, sizeof(ltab)))
+		{
+			printf("ltab i:%d\n", i);
 			D_ERROR
+		}
 		++i;
 	}
 	return (1);
