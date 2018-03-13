@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/03/12 19:09:40 by banthony         ###   ########.fr        #
+#    Updated: 2018/03/13 17:01:30 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -39,6 +39,7 @@ SRC += ft_memchr.s
 SRC += ft_memcmp.s
 SRC += ft_memalloc.s
 SRC += ft_memdel.s
+SRC += ft_memmove.s
 
 OBJ = $(SRC:.s=.o)
 
@@ -61,8 +62,8 @@ $(NAME): $(SRC) $(OBJ)
 	@ranlib $(NAME)
 
 $(MYTEST): $(NAME) main.c main.o
-	@gcc $(FLAGS) -Weverything -c main.c
-	@gcc -o $(MYTEST) $(FLAGS) -Weverything main.o $(NAME)
+	@gcc $(FLAGS) -c main.c
+	@gcc -o $(MYTEST) $(FLAGS) main.o $(NAME)
 
 $(QPTEST): $(NAME) main_qperez.c main_qperez.o
 	@gcc $(FLAGS) -c main_qperez.c

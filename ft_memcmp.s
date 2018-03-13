@@ -15,7 +15,7 @@ ft_memcmp:
 	cmp rsi, 0
 	je .erreur
 	cmp rdx, 0
-	je .erreur
+	jng .erreur
 
 	mov rax, 0
 	mov rcx, rdx

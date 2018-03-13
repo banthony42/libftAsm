@@ -4,26 +4,30 @@
 
 section .text
 	global ft_memalloc
-	extern ft_bzero
+	extern ft_memset
 	extern malloc
 
 ft_memalloc:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
 
-	test edi, edi
-	js .erreur
+	cmp rdi, 0
+	jng .erreur
 
-	mov rsi, rdi
-	push rsi
+	push rbx					; Save contenu de rbx
+	mov rbx, rdi				; Save de rdi dans rbx
+	and rsp, ~0xF				; Alignement de la stack avant le call
+
 	call malloc
 	test rax, rax
 	jz .erreur
 
-	pop rsi
+	mov rdx, rbx
 	mov rdi, rax
-	call ft_bzero
+	mov rsi, 0
+	call ft_memset
+
+	pop rbx						; Restitution de rbx
 	leave
 	ret
 

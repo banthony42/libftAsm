@@ -9,19 +9,22 @@ section .text
 ft_memdel:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
 
-	cmp rdi, 0
-	je .erreur
+	test rdi, rdi
+	jz .erreur
 
 	cmp qword [rdi], 0
 	je .erreur
 
-	push rdi
-	mov rdi, [rdi]
+	push rbx					; Save de rbx
+	and rsp, ~0xF				; Alignement sur la stack (16)
+	mov rbx, rdi				; Save rdi dans rbx
+	mov rdi, [rbx]
 	call free
-	mov qword [rdi], 0
-	pop rdi
+	mov qword [rbx], 0
+
+	pop rbx						; Restitution de rbx
+
 .erreur:
 	leave
 	ret

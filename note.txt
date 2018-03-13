@@ -24,3 +24,16 @@
 	mov "Hello world\n", rsi
 	mov 12, rdx
 	call write
+
+
+
+
+
+
+
+
+
+
+
+
+

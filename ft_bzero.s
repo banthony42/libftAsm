@@ -23,6 +23,7 @@ ft_bzero:
 	mov byte [rdi+ rcx], 0
 	inc rcx
 	jmp .boucle
+
 .end:
 	leave
 	ret

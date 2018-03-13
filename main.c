@@ -7,7 +7,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/12 18:55:13 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:38:47 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum	e_functions
 	BZERO, STRCAT, ISALPHA, ISDIGIT, ISALNUM, ISASCII, ISPRINT, TOUPPER, TOLOWER, PUTS, END_ONE,
 	STRLEN, MEMSET, MEMCPY, STRDUP, END_TWO,
 	CAT, END_THIRD,
-	MEMCHR, MEMCMP, END
+	MEMCHR, MEMCMP, MEMALLOC_DEL, MEMMOVE, END
 }				t_functions;
 
 # define WHITE "\033[0m"
@@ -35,7 +35,6 @@ typedef enum	e_functions
 
 int		my_test(int function, const char **av);
 void 	my_print_memory(void *addr, size_t size);
-void	hello_world(void);
 
 static size_t	my_strlen(const char *s)
 {
@@ -98,7 +97,6 @@ int main(int ac, const char **av)
 	int i = 0;
 	int ret = 0;
 
-	hello_world();
 	my_putstrcol(PINK, "/// LIBASM PART ONE \\\\\\\n");
 	while (i < END)
 	{
@@ -107,10 +105,13 @@ int main(int ac, const char **av)
 		if (i == END_TWO)
 			my_putstrcol(PINK, "/// LIBASM END PART  \\\\\\\n");
 
+		if (i == END_THIRD)
+			my_putstrcol(PINK, "\n\n/// LIBASM BONUS PART  \\\\\\\n");
+
 		if (!(ret = my_test(i, av)))
 			my_putstrcol(RED, "KO\n");
 		else if (ret == 84)
-			my_putstrcol(YELLOW, "YOU HAVE TO CHECK OUTPUTS\n");
+			my_putstrcol(YELLOW, "YOU HAVE TO CHECK OUTPUTS\n\n");
 		else if (ret != 42)
 			my_putstrcol(GREEN, "OK\n");
 		i++;
@@ -548,26 +549,24 @@ int my_test(int function, const char **av)
 		return (1);
 	}
 
-	//------ LIB PART THREE ------
+	//------ LIB END PART --------
 
 	if (function == CAT)
 	{
 		my_putstrcol(YELLOW, "ft_cat:\n");
-
-//		ft_cat(0);
-		ft_cat(open(__FILE__, O_RDONLY));
-		ft_cat(open(av[0], O_RDONLY));
+		ft_cat(0);
 		ft_cat(open(av[1], O_RDONLY));
 		ft_cat(-42);
 		ft_cat(42);
 
 		(void)av;
-		return (84);
 	}
+
+	//------ LIB BONUS PART --------
 
 	if (function == MEMCHR)
 	{
-		my_putstrcol(YELLOW, "\n\nft_memchr:\n");
+		my_putstrcol(YELLOW, "ft_memchr: ");
 		char *str = "Voici l'ecole * 42 !";
 		void *data = NULL;
 		void *data2 = NULL;
@@ -577,10 +576,29 @@ int my_test(int function, const char **av)
 		ft_memchr(NULL, 0, 0);
 		ft_memchr((void*)str, 0, 0);
 
-		if ((data = memchr((void*)str, '-', 5)) != (data2 = ft_memchr((void*)str, '-', 5)))
+		if ((data = memchr((void*)str, '/', strlen(str))) == (data2 = ft_memchr((void*)str, '/', strlen(str))))
+			my_putstrcol(GREEN, ".");
+		else
 			return (0);
 
-		if ((data = memchr((void*)str2, '-', 6)) != (data2 = ft_memchr((void*)str2, '-', 6)))
+		if ((data = memchr((void*)str, 0, strlen(str))) == (data2 = ft_memchr((void*)str, 0, strlen(str))))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		if ((data = memchr((void*)str, -5, strlen(str))) == (data2 = ft_memchr((void*)str, -5, strlen(str))))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		if ((data = memchr((void*)str2, '!', 30)) == (data2 = ft_memchr((void*)str2, '!', 30)))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		if ((data = memchr((void*)str2, 42, 30)) == (data2 = ft_memchr((void*)str2, 42, 30)))
+			my_putstrcol(GREEN, ".");
+		else
 			return (0);
 
 		return (1);
@@ -588,17 +606,116 @@ int my_test(int function, const char **av)
 
 	if (function == MEMCMP)
 	{
-		my_putstrcol(YELLOW, "ft_memcmp:\n");
-		my_putnbr(memcmp("Bonjourka.", "Bonjourya!", 9));
-		my_putchar('\n');
-		my_putnbr(ft_memcmp("Bonjourka.", "Bonjourya!", 9));
+		my_putstrcol(YELLOW, "ft_memcmp: ");
+		int ret1;
+		int ret2;
+
+		ft_memcmp(NULL, "salut", 5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memcmp("salut", NULL, 5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memcmp("salut", "salut", 0);
+		my_putstrcol(GREEN, ".");
+
+		ft_memcmp("salut", "salut", -5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memcmp(NULL, NULL, 5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memcmp(NULL, NULL, 0);
+		my_putstrcol(GREEN, ".");
+
+		ret1 = memcmp("Salut", "Salut", 0);
+		ret2 = ft_memcmp("Salut", "Salut", 0);
+		if (ret1 == ret2)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ret1 = memcmp("Salut", "Salut", 5);
+		ret2 = ft_memcmp("Salut", "Salut", 5);
+		if (ret1 == ret2)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 		return (1);
 	}
 
-	if (function == END_ONE || function == END_TWO || function == END_THIRD || function == END)
+	if (function == MEMALLOC_DEL)
+	{
+		my_putstrcol(YELLOW, "ft_memalloc: & ft_memdel: ");
+		void *ret;
+		void *n = NULL;
+
+		ft_memdel(NULL);
+		my_putstrcol(GREEN, ".");
+		ft_memdel(&n);
+		my_putstrcol(GREEN, ".");
+
+		ret = ft_memalloc(0);
+		if (ret == NULL)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ret = ft_memalloc(-1);
+		if (ret == NULL)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ret = ft_memalloc(4);
+		ft_memdel(&ret);
+		if (ret == NULL)
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+		return (1);
+	}
+
+	if (function == MEMMOVE)
+	{
+		my_putstrcol(YELLOW, "ft_memmove: \n");
+
+		char src[20] =  "0123456789abcdefghij";
+		char src2[20] = "0123456789abcdefghij";
+//		char dest[15] = {42};
+//		char dest2[15] = {42};
+
+		my_print_memory((void*)src, 24);
+		my_putchar('\n');
+
+//		abcdefghij
+//		6789abcdefghij
+		ft_memmove(src + 9, src + 5, 9);
+		my_print_memory((void*)src, 24);
+		my_putchar('\n');
+
+		memmove(src2 + 9, src2 + 5, 9);
+		my_print_memory((void*)src2, 24);
+		return (1);
+	}
+
+	if (function == END_ONE || function == END_TWO || function == END_THIRD || function == END || function == CAT)
 		return (42);
 	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 static void print_char(unsigned char *adr, size_t i, size_t size)

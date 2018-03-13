@@ -136,8 +136,8 @@ int					main(void)
 	D_ADD_HCTEST(memcpy);
 //#define	D_MEMCCPY
 //	D_ADD_HCTEST(memccpy);
-//#define	D_MEMMOVE
-//	D_ADD_HCTEST(memmove);
+#define	D_MEMMOVE
+	D_ADD_HCTEST(memmove);
 #define	D_MEMCHR
 	D_ADD_HCTEST(memchr);
 #define	D_MEMCMP
