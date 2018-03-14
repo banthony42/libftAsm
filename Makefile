@@ -6,7 +6,7 @@
 #    By: banthony <banthony@students.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 16:22:07 by banthony          #+#    #+#              #
-#    Updated: 2018/03/13 17:01:30 by banthony         ###   ########.fr        #
+#    Updated: 2018/03/14 15:05:48 by banthony         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,8 +14,6 @@ NAME = libfts.a
 
 MYTEST = my_test
 QPTEST = qp_test
-
-SRC += hello_world.s
 
 SRC += ft_bzero.s
 SRC += ft_strcat.s
