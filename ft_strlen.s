@@ -15,10 +15,10 @@ ft_strlen:
 	je .end
 
 	mov rcx, 0
-	not rcx
-	cld
-	repne scasb
-	not rcx
+	not rcx						; Nombre tres grand
+	cld							; Parcour par Increment
+	repne scasb					; Cherche la valeur 0 dans s, (incremente rcx a chaque tour)
+	not rcx						; Inversion de rcx pour avoir le resultat
 	dec rcx
 	mov rax, rcx
 

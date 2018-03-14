@@ -11,27 +11,27 @@ ft_strcat:
 	mov rbp, rsp
 	sub rsp, 16
 
-	cmp rdi, 0					;protection si dest == NULL
-	je .erreur					;on quitte
-	cmp rsi, 0					;protection si src == NULL
-	je .erreur					;on quitte
+	cmp rdi, 0					; Protection si dest == NULL
+	je .erreur					; On quitte
+	cmp rsi, 0					; Protection si src == NULL
+	je .erreur					; On quitte
 	mov rcx, 0
 
 .len_dest:
 	cmp byte [rdi+rcx], 0
 	je .len_end
-	inc rcx
+	inc rcx						; Increment de rcx jusqu'a avoir la len de dest
 	jmp .len_dest
 
 .len_end:
-	mov rdx, rcx
+	mov rdx, rcx				; Stockage resultat dans rdx
 	mov rcx, 0
 
 .boucle:
-	cmp byte [rsi+rcx], 0
+	cmp byte [rsi+rcx], 0		; Tant que dest[rcx] existe
 	je .end
-	mov rax, [rsi+rcx]
-	mov [rdi+rdx], rax
+	mov rax, [rsi+rcx]			; Stockage src[rcx] dans rax
+	mov [rdi+rdx], rax			; Ecriture de rax, dans dest[rcx]
 	inc rcx
 	inc rdx
 	jmp .boucle

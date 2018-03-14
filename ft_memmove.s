@@ -11,13 +11,13 @@ ft_memmove:
 
 	mov r8, rdi					; Save dest dans r8
 
-	cmp rdi, 0					; Erreur si dest == NULL
+	cmp rdi, 0					; Stop si dest == NULL
 	je .end
 
-	cmp rsi, 0					; Erreur si src == NULL
+	cmp rsi, 0					; Stop si src == NULL
 	je .end
 
-	test rdx, rdx				; Erreur si size n <= 0
+	test rdx, rdx				; Stop si size n <= 0
 	js .end
 	jz .end
 

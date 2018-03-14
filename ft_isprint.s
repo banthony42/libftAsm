@@ -6,14 +6,14 @@ section .text
 	global ft_isprint
 
 ft_isprint:
-	push rbp					;save de la stack avant appel de fonction
-	mov rbp, rsp				;pour pouvoir la restaurer en fin de cette fonction (leave)
-	sub rsp, 16					;permet au debugueur de remonter la pile d'appels
+	push rbp					; Save de la stack avant appel de fonction
+	mov rbp, rsp				; Pour pouvoir la restaurer en fin de cette fonction (leave)
+	sub rsp, 16
 
-	cmp edi, 31
-	jng isnot
+	cmp edi, 32					; Si c > ' ' return 0
+	jnge isnot
 	cmp edi, 127
-	jnl isnot
+	jnl isnot					; Si c >= au char del return 0
 	mov rax, 1
 	leave
 	ret

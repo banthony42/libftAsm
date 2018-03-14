@@ -12,13 +12,13 @@ ft_memcpy:
 
 	mov r8, rdi
 	cmp rdi, 0
-	je .erreur
+	je .erreur					; Si dest == NULL return NULL
 	cmp rsi, 0
-	je .erreur
+	je .erreur					; Si src == NULL return NULL
 
-	mov rcx, rdx
-	repne movsb
-	mov rax, r8
+	mov rcx, rdx				; Compteur rcx a n, pour copie n octet
+	repne movsb					; Copie rsi dans rdi
+	mov rax, r8					; dest dans rax pour le retour
 	leave
 	ret
 

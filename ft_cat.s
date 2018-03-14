@@ -22,31 +22,31 @@ ft_cat:
 	test edi, edi				; Erreur sur fd negatif
 	js .error
 
-	mov r8, rdi
+	mov r8, rdi					; Save du fd dans r8
 
 .loop:
-	lea rsi, [rel buf]
-	mov rdi, r8
-	mov rdx, buf_size
-	mov rax, MACH_SYSCALL(READ)
-	syscall
-	jc .error
+	lea rsi, [rel buf]			; Recup de l'adresse de la variable buf dans rsi
+	mov rdi, r8					; Recup du fd dans rdi
+	mov rdx, buf_size			; Set de rdx a buf_size, pour lire un certain nombre d'octets
+	mov rax, MACH_SYSCALL(READ)	; Adresse de read dans rax
+	syscall						; Appel a read
+	jc .error					; Si read rencontre une erreur
 	cmp rax, 0					; Comparaison retour de read a 0
 	js .error					; Erreur si return < 0
 
-	mov rdi, 1
-	mov rdx, rax
-	mov rax, MACH_SYSCALL(WRITE)
-	syscall
-	jc .error
+	mov rdi, 1						; On veut ecrire sur le fd = 1
+	mov rdx, rax					; On ecrit autant d'octet lu par read
+	mov rax, MACH_SYSCALL(WRITE)	; Adresse de write dans rax
+	syscall							; Appel a write
+	jc .error						; Si write rencontre une erreur
 
-	cmp rax, 0
-	je .end
+	cmp rax, 0					; Si retour de write == 0
+	je .end						; Alors rien n'a ete ecrit donc on termine
 	js .error					; Erreur si return < 0
 
-	jmp .loop
+	jmp .loop					; Si on arrive ici il y a encore a read donc on boucle
 
-.error:
+.error:							; Gestion d'erreur affichage du message enregistrer dans bad_fd
 	mov rdi, 1
 	lea rsi, [rel bad_fd.string]
 	mov rdx, bad_fd.len

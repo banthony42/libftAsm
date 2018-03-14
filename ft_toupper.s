@@ -11,11 +11,11 @@ ft_toupper:
 	sub rsp, 16
 
 	cmp edi, 97
-	jnge .else
+	jnge .else					; Si edi < 'a' on ne fait rien
 	cmp edi, 122
-	jnle .else
+	jnle .else					; Si edi > 'z' on ne fait rien
 	mov eax, edi
-	xor eax, 0x20				;set du bit de poid 32 a zero (identique a: sub rax, 32)
+	xor eax, 0x20				; Set du bit de poid 32 a zero (identique a: sub rax, 32)
 	leave
 	ret
 .else:

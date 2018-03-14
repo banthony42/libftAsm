@@ -11,17 +11,17 @@ ft_memdel:
 	mov rbp, rsp
 
 	test rdi, rdi
-	jz .erreur
+	jz .erreur					; Arret si ap == NULL
 
 	cmp qword [rdi], 0
-	je .erreur
+	je .erreur					; Arret si *ap == NULL
 
 	push rbx					; Save de rbx
-	and rsp, ~0xF				; Alignement sur la stack (16)
-	mov rbx, rdi				; Save rdi dans rbx
-	mov rdi, [rbx]
-	call free
-	mov qword [rbx], 0
+	and rsp, ~0xF				; Alignement sur la stack, (16)
+	mov rbx, rdi				; Save ap dans rbx
+	mov rdi, [rbx]				; *ap dans rdi
+	call free					; free(*ap)
+	mov qword [rbx], 0			; *ap = NULL
 
 	pop rbx						; Restitution de rbx
 

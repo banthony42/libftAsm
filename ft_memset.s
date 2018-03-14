@@ -1,5 +1,5 @@
 	;;
-	;;	void ft_memset(void *data, int c, size_t len)
+	;;	void *ft_memset(void *data, int c, size_t len)
 	;;
 
 section .text
@@ -12,14 +12,14 @@ ft_memset:
 
 	mov r8, rdi
 	cmp rdi, 0
-	je .end
+	je .end						; Si data == NULL return
 
-	mov rax, rsi
-	mov rcx, rdx
-	cld
-	repne stosb
+	mov rax, rsi				; Valeur a ecrire dans rax, (seul al sera utilise)
+	mov rcx, rdx				; Init du compteur a len
+	cld							; Copie par Increment
+	repne stosb					; Ecriture de la valeur de al, dans rdi, tant que rcx != 0
 
 .end:
-	mov rax, r8
+	mov rax, r8					; return data
 	leave
 	ret

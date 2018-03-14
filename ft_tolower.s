@@ -11,11 +11,11 @@ ft_tolower:
 	sub rsp, 16
 
 	cmp edi, 65
-	jnge .else
+	jnge .else					; Si edi < 'A' on ne fait rien
 	cmp edi, 90
-	jnle .else
+	jnle .else					; Si edi > 'Z' on ne fait rien
 	mov eax, edi
-	add eax, 32
+	add eax, 32					; Ajout de 32, (ecart ascii entre minus et majus)
 	leave
 	ret
 .else:

@@ -19,13 +19,13 @@ ft_memalloc:
 	and rsp, ~0xF				; Alignement de la stack avant le call
 
 	call malloc
-	test rax, rax
-	jz .erreur
+	test rax, rax				; Test retour de malloc != NULLx
+	jz .erreur					; Si NULL return NULL
 
-	mov rdx, rbx
-	mov rdi, rax
-	mov rsi, 0
-	call ft_memset
+	mov rdx, rbx				; Size dans rdx
+	mov rdi, rax				; Pointeur fraichement malloc dans rdi
+	mov rsi, 0					; rsi = valeur a set, ici 0
+	call ft_memset				; Appel a ft_memset
 
 	pop rbx						; Restitution de rbx
 	leave

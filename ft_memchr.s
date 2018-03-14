@@ -15,14 +15,14 @@ ft_memchr:
 
 	mov rcx, rdx				; Recherche sur n bytes
 	mov al, sil					; Les 8 bits les plus bas de rsi, dans al pour la recherche
-	cld
+	cld							; Copie par increment
 	repne scasb 				; Recherche de al dans rdi
 	je .end						; Found !
 	jmp .erreur					; Not Found
 
 .end:
 	dec rdi						; La recherche s'est arrete sur l'octet suivant le found
-	mov rax, rdi
+	mov rax, rdi				; On return au char qui a ete found
 	leave
 	ret
 

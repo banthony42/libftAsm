@@ -6,24 +6,24 @@ section .text
 	global ft_isalpha
 
 ft_isalpha:
-	push rbp					;save de la stack avant appel de fonction
-	mov rbp, rsp				;pour pouvoir la restaurer en fin de cette fonction (leave)
-	sub rsp, 16					;permet au debugueur de remonter la pile d'appels
+	push rbp					; Save de la stack avant appel de fonction
+	mov rbp, rsp				; Pour pouvoir la restaurer en fin de cette fonction (leave)
+	sub rsp, 16
 
-	cmp edi, 64
-	jng or
-	cmp edi, 91
-	jnl or
+	cmp edi, 65
+	jnge or						; Si c < 'A' on continue pour test les minuscules
+	cmp edi, 90
+	jnle or						; Si c > 'Z' on continue pour test les minuscules
 
-	mov rax, 1
+	mov rax, 1					; Si c compris entre 'A' et 'Z' on return 1
 	leave
 	ret
 
 or:
-	cmp edi, 96
-	jng isnot
-	cmp edi, 123
-	jnl isnot
+	cmp edi, 97
+	jnge isnot					; Si c < 'a' on return 0
+	cmp edi, 122
+	jnle isnot					; Si c > 'z' on return 0
 
 	mov rax, 1
 	leave

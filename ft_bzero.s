@@ -8,21 +8,20 @@ section .text
 ft_bzero:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
 
-	cmp rdi, 0					;protection si data == NULL
-	je .end						;alors on quitte
+	cmp rdi, 0					; Protection si data == NULL
+	je .end						; Alors on quitte
 
-	test esi, esi				;instruction qui set le register flags
-	js .end						;jump si le flag de signe est set (SF flag)
+	test esi, esi				; Instruction qui set le register flags
+	js .end						; Jump si le flag de signe est set (SF flag)
 
-	mov rcx, 0
+	mov rcx, 0					; Compteur a 0
 .boucle:
-	cmp rcx, rsi
-	je .end
-	mov byte [rdi+ rcx], 0
-	inc rcx
-	jmp .boucle
+	cmp rcx, rsi				; Comparaison compteur / size
+	je .end						; Si compteur == size alors stop
+	mov byte [rdi+ rcx], 0		; Init a 0 de chaque byte
+	inc rcx						; Increment
+	jmp .boucle					; Retour au label .boucle
 
 .end:
 	leave
