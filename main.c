@@ -7,7 +7,7 @@
 /*   By: banthony <banthony@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 20:43:53 by banthony          #+#    #+#             */
-/*   Updated: 2018/03/13 18:38:47 by banthony         ###   ########.fr       */
+/*   Updated: 2018/03/14 15:01:06 by banthony         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,6 @@ int my_test(int function, const char **av)
 
 		ft_bzero(NULL, 10);
 
-// CAS VICIEUX OU L'UTILISATEUR DECLARE: void ft_bzero(void *data, int n)
-/*		my_putstrcol(YELLOW, "ft_bzero(&str[9], -2):\n");
-		ft_bzero((void*)&str[9], -25654);
-		my_print_memory((void*)str, 10);
-*/
 		my_putstrcol(YELLOW, "ft_bzero(str, 10):\n");
 		ft_bzero((void*)str, 10);
 		my_print_memory((void*)str, 10);
@@ -678,24 +673,49 @@ int my_test(int function, const char **av)
 
 	if (function == MEMMOVE)
 	{
-		my_putstrcol(YELLOW, "ft_memmove: \n");
+		my_putstrcol(YELLOW, "ft_memmove: ");
 
 		char src[20] =  "0123456789abcdefghij";
 		char src2[20] = "0123456789abcdefghij";
-//		char dest[15] = {42};
-//		char dest2[15] = {42};
 
-		my_print_memory((void*)src, 24);
-		my_putchar('\n');
+		ft_memmove(NULL, "salut", 5);
+		my_putstrcol(GREEN, ".");
 
-//		abcdefghij
-//		6789abcdefghij
+		ft_memmove("salut", NULL, 5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memmove("salut", "salut", 0);
+		my_putstrcol(GREEN, ".");
+
+		ft_memmove("salut", "salut", -5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memmove(NULL, NULL, 5);
+		my_putstrcol(GREEN, ".");
+
+		ft_memmove(NULL, NULL, 0);
+		my_putstrcol(GREEN, ".");
+
 		ft_memmove(src + 9, src + 5, 9);
-		my_print_memory((void*)src, 24);
-		my_putchar('\n');
-
 		memmove(src2 + 9, src2 + 5, 9);
-		my_print_memory((void*)src2, 24);
+		if (!memcmp(src, src2, 20))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ft_memmove(src + 5, src + 6, 8);
+		memmove(src2 + 5, src2 + 6, 8);
+		if (!memcmp(src, src2, 20))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
+
+		ft_memmove(src, src, 15);
+		memmove(src2, src2, 15);
+		if (!memcmp(src, src2, 20))
+			my_putstrcol(GREEN, ".");
+		else
+			return (0);
 		return (1);
 	}
 
